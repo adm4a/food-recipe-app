@@ -1,0 +1,47 @@
+<div class="container mt-5">
+  <h1>Our Recipes</h1>
+  <p>Here you can find our recipes.</p>
+
+  Recipe Cards Row -->
+  <div
+    id="recipesRow"
+    class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4"
+  ></div>
+</div>
+
+Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $.ajax({
+      type: "GET",
+      url: "http://localhost/food-recipe-app/rest/recipes",
+      success: function (data) {
+        let recipeCards = "";
+
+        data.forEach((recipe) => {
+          recipeCards += `
+            <div class="col">
+              <div class="card h-100">
+                <img src="${recipe.img_url}" class="card-img-top" alt="Recipe Image">
+                <div class="card-body">
+                  <h5 class="card-title">${recipe.title}</h5>
+                  <p class="card-text">${recipe.description}</p>
+                </div>
+                <div class="card-footer">
+                  <small class="text-muted">Preparation time: ${recipe.preparationTime} mins</small>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+
+        $("#recipesRow").html(recipeCards);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error occurred while fetching recipes: ", error);
+      },
+    });
+  });
+</script>

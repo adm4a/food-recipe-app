@@ -1,0 +1,20 @@
+<div class="container mt-5">
+  <h1 id="welcomeMessage">Welcome to Recipe App!</h1>
+  <p>This is your home for the most delicious recipes on the web.</p>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $.ajax({
+      type: "GET",
+      url: "http://localhost/food-recipe-app/rest/me",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      success: function (response) {
+        var user = response;
+        $("#welcomeMessage").html("Welcome, " + user.username + "!");
+      },
+    });
+  });
+</script>

@@ -31,7 +31,7 @@ switch ($type) {
 
     case 'get':
 
-        default:                       // If we don't provide any parameter in URL 'get' will execute
+    default: // If we don't provide any parameter in URL 'get' will execute
         $results = $dao->getAll();
         print_r($results);
         break;
