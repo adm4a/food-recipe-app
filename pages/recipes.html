@@ -2,14 +2,33 @@
   <h1>Our Recipes</h1>
   <p>Here you can find our recipes.</p>
 
-  Recipe Cards Row -->
+
   <div
     id="recipesRow"
     class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4"
   ></div>
 </div>
 
-Include jQuery -->
+<style>
+  .card-img-top {
+    width: 100%;
+    height: 200px; 
+    object-fit: cover; 
+  }
+
+  .card {
+    height: 100%;
+  }
+
+
+  @media (min-width: 992px) {
+    .row-cols-lg-4 > div[class^="col"] {
+      flex: 0 0 25%;
+      max-width: 25%;
+    }
+  }
+</style>
+
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <script>
