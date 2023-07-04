@@ -74,6 +74,10 @@ class BaseDao
      */
     public function insertData($entity)
     {
+        // Add the user_id to the entity data
+        $token = getTokenFromHeader(); // Assuming you have a function to get the JWT token from the header
+        $user_id = getUserIdFromToken($token);
+        $entity['user_id'] = $user_id;
 
         $query = "INSERT INTO " . $this->table_name . " (";
         foreach ($entity as $column => $value) {
@@ -93,22 +97,33 @@ class BaseDao
         return $entity;
     }
 
+
     /**
      * Method used to update entity in db
      */
     public function updateData($entity, $id, $id_column = "id")
     {
-
         $query = "UPDATE " . $this->table_name . " SET ";
+        $params = [];
+
         foreach ($entity as $column => $value) {
             $query .= $column . " = :" . $column . ", ";
+            $params[$column] = $value;
         }
-        $query = substr($query, 0, -2);
+
+        $query = rtrim($query, ", ");
         $query .= " WHERE {$id_column} = :id";
-        $stmt = $this->pdo->prepare($query);
-        $entity['id'] = $id;
-        $stmt->execute($entity);
-        return $entity;
+        $params['id'] = $id;
+
+        try {
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute($params);
+            return $entity;
+        } catch (PDOException $e) {
+            // Log or handle the exception as needed
+            echo "Failed to update entity: " . $e->getMessage();
+            return false;
+        }
     }
 
 

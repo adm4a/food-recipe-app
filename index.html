@@ -4,71 +4,105 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Recipe App</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
 
+      .wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+      }
 
+      .content {
+        flex: 1;
+      }
+
+      .footer {
+        background-color: #f8f9fa;
+        padding: 20px 0;
+        text-align: center;
+      }
+      .wrapper {
+        background-image: url("https://images.pexels.com/photos/349610/pexels-photo-349610.jpeg?cs=srgb&dl=pexels-lukas-349610.jpg&fm=jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    </style>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     />
-
-
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css"
     />
 
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
   </head>
   <body>
+    <div class="wrapper">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+          <img src="./img/logo.png" width="100" />
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#recipes">Recipes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#aboutus">About Us</a>
+            </li>
+            <li class="nav-item" id="loginLink">
+              <a class="nav-link" href="#login">Login</a>
+            </li>
+            <li class="nav-item" id="registerLink">
+              <a class="nav-link" href="#register">Register</a>
+            </li>
+            <li class="nav-item" id="profileLink" style="display: none">
+              <a class="nav-link" href="#profile">My Profile</a>
+            </li>
+            <li class="nav-item" id="logoutLink" style="display: none">
+              <a class="nav-link" href="#logout">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#"><img src="./img/loGGGGGo.png" width="100"></a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#home">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#recipes">Recipes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#aboutus">About Us</a>
-          </li>
-          <li class="nav-item" id="loginLink">
-            <a class="nav-link" href="#login">Login</a>
-          </li>
-          <li class="nav-item" id="registerLink">
-            <a class="nav-link" href="#register">Register</a>
-          </li>
-          <li class="nav-item" id="profileLink" style="display: none">
-            <a class="nav-link" href="#profile">My Profile</a>
-          </li>
-          <li class="nav-item" id="logoutLink" style="display: none">
-            <a class="nav-link" href="#logout">Logout</a>
-          </li>
-        </ul>
+      <div class="content">
+        <div id="app"></div>
       </div>
-    </nav>
 
-
-    <div id="app"></div>
-
+      <footer class="footer">
+        <div class="container">
+          <span class="text-muted">© 2023 Food. All rights reserved.</span>
+        </div>
+      </footer>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
 
     <script>
       $(document).ready(function () {

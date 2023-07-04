@@ -1,12 +1,13 @@
 <?php
 
-require_once "../vendor/autoload.php";   
+require_once "../vendor/autoload.php";
+require_once "./helpers.php";
 
-require_once ("services/UserService.php");
-require_once ("services/RecipeService.php");
-require_once ("services/CategoryService.php");
-require_once ("services/FavoriteService.php");
-require_once ("services/IngredientService.php");
+require_once("services/UserService.php");
+require_once("services/RecipeService.php");
+require_once("services/CategoryService.php");
+require_once("services/FavoriteService.php");
+require_once("services/IngredientService.php");
 
 
 
@@ -28,6 +29,6 @@ require_once "routes/IngredientsRoutes.php";
 
 
 
-Flight::start();    
+Flight::start();
 
 ?>

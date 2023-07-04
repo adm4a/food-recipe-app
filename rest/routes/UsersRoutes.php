@@ -1,5 +1,8 @@
 <?php
 
+require_once "helpers.php";
+
+
 Flight::route("/", function () {
 
     echo "Hello world";
@@ -35,25 +38,18 @@ Flight::route("GET /me", function () {
 });
 
 Flight::route("DELETE /me", function () {
-    $headers = apache_request_headers();
-    $token = isset($headers["Authorization"]) ? str_replace("Bearer ", "", $headers["Authorization"]) : null;
-    if ($token) {
-        $decodedToken = decodeJwt($token);
-        if ($decodedToken) {
-            $userId = $decodedToken["userId"];
-            if (Flight::user_service()->deleteByID($userId)) {
-                Flight::json(["message" => "Account deleted successfully"]);
-            } else {
-                Flight::json(["message" => "Failed to delete account"], 500);
-            }
+    $token = getTokenFromHeader();
+    $userId = getUserIdFromToken($token);
+    if ($userId) {
+        if (Flight::user_service()->deleteByID($userId)) {
+            Flight::json(["message" => "Account deleted successfully"]);
         } else {
-            Flight::json(["message" => "Invalid token: " . $token], 401);
+            Flight::json(["message" => "Failed to delete account"], 500);
         }
     } else {
-        Flight::json(["message" => "Token not provided"], 401);
+        Flight::json(["message" => "Invalid token"], 401);
     }
 });
-
 
 
 Flight::route("POST /me", function () {

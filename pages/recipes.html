@@ -2,65 +2,96 @@
   <h1>Our Recipes</h1>
   <p>Here you can find our recipes.</p>
 
+  <input
+    type="text"
+    id="searchInput"
+    placeholder="Search for recipes..."
+    class="form-control mb-3"
+  />
 
   <div
     id="recipesRow"
     class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4"
   ></div>
+
+  <nav>
+    <ul class="pagination justify-content-center mt-3" id="pagination"></ul>
+  </nav>
 </div>
 
 <style>
+  .card {
+    max-width: 24rem;
+  }
+
   .card-img-top {
     width: 100%;
-    height: 200px; 
-    object-fit: cover; 
-  }
-
-  .card {
-    height: 100%;
-  }
-
-
-  @media (min-width: 992px) {
-    .row-cols-lg-4 > div[class^="col"] {
-      flex: 0 0 25%;
-      max-width: 25%;
-    }
+    height: 10vw;
+    object-fit: cover;
   }
 </style>
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
 
 <script>
   $(document).ready(function () {
-    $.ajax({
-      type: "GET",
-      url: "http://localhost/food-recipe-app/rest/recipes",
-      success: function (data) {
-        let recipeCards = "";
+    let currentPage = 1;
+    let itemsPerPage = 8;
 
-        data.forEach((recipe) => {
-          recipeCards += `
-            <div class="col">
-              <div class="card h-100">
-                <img src="${recipe.img_url}" class="card-img-top" alt="Recipe Image">
-                <div class="card-body">
-                  <h5 class="card-title">${recipe.title}</h5>
-                  <p class="card-text">${recipe.description}</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-muted">Preparation time: ${recipe.preparationTime} mins</small>
+    function loadRecipes(page, itemsPerPage, searchText = "") {
+      $.ajax({
+        type: "GET",
+        url: `http://localhost/food-recipe-app/rest/recipes?page=${page}&itemsPerPage=${itemsPerPage}&searchText=${searchText}`,
+        success: function (data) {
+          let recipeCards = "";
+
+          data.recipes.forEach((recipe) => {
+            recipeCards += `
+              <div class="col-12 col-md-6 col-lg-3 mb-5">
+                <div class="card h-100">
+                  <img src="${recipe.img_url}" class="card-img-top" alt="Recipe Image">
+                  <div class="card-body">
+                    <h5 class="card-title">${recipe.title}</h5>
+                    <p class="card-text">${recipe.description}</p>
+                  </div>
+                  <div class="card-footer">
+                    <small class="text-muted">Preparation time: <b>${recipe.prep_time}</b></small>
+                  </div>
                 </div>
               </div>
-            </div>
-          `;
-        });
+            `;
+          });
 
-        $("#recipesRow").html(recipeCards);
-      },
-      error: function (xhr, status, error) {
-        console.error("Error occurred while fetching recipes: ", error);
-      },
+          let pagination = "";
+          for (let i = 1; i <= Math.ceil(data.totalCount / itemsPerPage); i++) {
+            pagination += `<li class="page-item ${
+              i == currentPage ? "active" : ""
+            }"><a class="page-link" href="#">${i}</a></li>`;
+          }
+
+          $("#recipesRow").html(recipeCards);
+          $("#pagination").html(pagination);
+        },
+        error: function (xhr, status, error) {
+          console.error("Error occurred while fetching recipes: ", error);
+        },
+      });
+    }
+
+    loadRecipes(currentPage, itemsPerPage);
+
+    $(document).on("click", ".page-link", function (e) {
+      e.preventDefault();
+      currentPage = parseInt($(this).text());
+      loadRecipes(currentPage, itemsPerPage, $("#searchInput").val());
     });
+
+    $("#searchInput").on(
+      "keyup",
+      _.debounce(function (e) {
+        currentPage = 1;
+        loadRecipes(currentPage, itemsPerPage, $(this).val());
+      }, 300)
+    );
   });
 </script>

@@ -1,4 +1,3 @@
-
 <div class="container mt-5">
   <h1>Register</h1>
   <form id="registerForm">
@@ -94,6 +93,10 @@
             icon: "success",
             title: "Registration Successful",
             text: "You have successfully registered.",
+          }).then(function () {
+            // Redirect to the login page
+            window.location.href = "login.html"; // Navigate to home.html
+            location.reload(); // Refresh the page
           });
         },
         error: function (xhr, status, error) {
