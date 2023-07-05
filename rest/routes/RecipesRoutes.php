@@ -1,10 +1,28 @@
 <?php
 require_once "helpers.php";
+use OpenApi\Annotations as OA;
 
-Flight::route("/", function () {
+/**
+ * @OA\Info(
+ *   title="My first API",
+ *   version="1.0.0",
+ *   @OA\Contact(
+ *     email="support@example.com"
+ *   )
+ * )
+ */
 
-    echo "Hello world";
-});
+/**
+ * @OA\PathItem(
+ *   path="/",
+ *   @OA\Get(
+ *     tags={"Default"},
+ *     summary="Default route",
+ *     description="Default route of the API",
+ *     @OA\Response(response="200", description="Successful operation")
+ *   )
+ * )
+ */
 
 Flight::route('GET /recipes/me', function () {
     $token = getTokenFromHeader();
@@ -17,6 +35,51 @@ Flight::route('GET /recipes/me', function () {
     }
 });
 
+/**
+ * @OA\Get(
+ *     path="/recipes",
+ *     tags={"Recipes"},
+ *     summary="Get all recipes",
+ *     description="Retrieves all recipes with pagination support.",
+ *     @OA\Parameter(
+ *         name="page",
+ *         in="query",
+ *         description="Page number",
+ *         required=false,
+ *         @OA\Schema(
+ *             type="integer",
+ *             default=1
+ *         )
+ *     ),
+ *     @OA\Parameter(
+ *         name="itemsPerPage",
+ *         in="query",
+ *         description="Number of items per page",
+ *         required=false,
+ *         @OA\Schema(
+ *             type="integer",
+ *             default=8
+ *         )
+ *     ),
+ *     @OA\Parameter(
+ *         name="searchText",
+ *         in="query",
+ *         description="Text to search in recipe titles",
+ *         required=false,
+ *         @OA\Schema(
+ *             type="string"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful operation",
+ *         @OA\JsonContent(
+ *             type="array",
+ *             @OA\Items(ref="#/components/schemas/Recipe")
+ *         )
+ *     )
+ * )
+ */
 Flight::route("GET /recipes", function () {
     $request = Flight::request();
     $page = isset($request->query['page']) ? $request->query['page'] : 1;
@@ -56,9 +119,22 @@ Flight::route("DELETE /recipe/@id", function ($id) {
 
 Flight::route("POST /recipe", function () {
 
+    // Fetching the token and the user id from it
+    $token = getTokenFromHeader();
+    $userId = getUserIdFromToken($token);
+
+    // Check if the user is logged in
+    if (!$userId) {
+        Flight::json(["message" => "Unauthorized: Not logged in"], 401);
+        return;
+    }
+
     $request = Flight::request()->data->getData();
-    Flight::json(["message" => "Recipe added successfully", "data: " => Flight::recipe_service()->insertData($request)]);
+    // Add the user_id to the request data before inserting
+    $request['user_id'] = $userId;
+    Flight::json(["message" => "Recipe added successfully", "data" => Flight::recipe_service()->insertData($request)]);
 });
+
 
 Flight::route("PUT /recipe/@id", function ($id) {
     $token = getTokenFromHeader();

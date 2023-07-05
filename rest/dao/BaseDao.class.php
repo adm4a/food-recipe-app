@@ -74,10 +74,6 @@ class BaseDao
      */
     public function insertData($entity)
     {
-        // Add the user_id to the entity data
-        $token = getTokenFromHeader(); // Assuming you have a function to get the JWT token from the header
-        $user_id = getUserIdFromToken($token);
-        $entity['user_id'] = $user_id;
 
         $query = "INSERT INTO " . $this->table_name . " (";
         foreach ($entity as $column => $value) {
@@ -133,7 +129,7 @@ class BaseDao
 // Add these functions at the end of your BaseDao.php file.
 function generateJwt($userId)
 {
-    $secretKey = 'your-secret-key';
+    $secretKey = 'food-recipe-app-secretKeyaushda4327472398547237582436124781';
     $issuedAt = new DateTimeImmutable();
 
     $payload = [
@@ -161,7 +157,7 @@ function generateJwt($userId)
 function decodeJwt($token)
 {
     // This should be the same key you used in the 'kid' field when encoding the JWT
-    $keys = array('your-key-id' => 'your-secret-key');
+    $keys = array('your-key-id' => 'food-recipe-app-secretKeyaushda4327472398547237582436124781');
 
     try {
         // The 'kid' in the header will be used by the library to find the correct secret key

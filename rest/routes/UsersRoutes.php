@@ -2,13 +2,6 @@
 
 require_once "helpers.php";
 
-
-Flight::route("/", function () {
-
-    echo "Hello world";
-});
-
-
 Flight::route('POST /login', function () {
     $request = Flight::request()->data->getData();
     $user = Flight::user_service()->validateUser($request['username'], $request['password']);

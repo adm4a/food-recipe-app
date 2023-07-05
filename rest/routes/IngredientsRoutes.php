@@ -1,45 +1,40 @@
 <?php
 
-Flight::route("/", function() {
-
-    echo "Hello world";
-});
-
-Flight::route("GET /ingredients", function() {     // Get all ingredients
+Flight::route("GET /ingredients", function () { // Get all ingredients
 
     // ingredient_service = new Projectingredient_service() <- don't need this
     // $results = Flight::ingredient_service()->getAll();
     Flight::json(Flight::ingredient_service()->getAll());
- });
-
-Flight::route("GET /ingredient/@id", function($id) {     // Get ingredient by id 
-
-   Flight::json(Flight::ingredient_service()->getByID($id));
 });
 
-Flight::route("GET /ingredient_by_id", function() {     // Get ingredient by id with query
+Flight::route("GET /ingredient/@id", function ($id) { // Get ingredient by id 
 
-    $id = Flight::request() -> query['id'];
     Flight::json(Flight::ingredient_service()->getByID($id));
- });
+});
 
-Flight::route("DELETE /ingredient/@id", function($id) {   // Delete ingredient by id
+Flight::route("GET /ingredient_by_id", function () { // Get ingredient by id with query
 
-    Flight::ingredient_service() -> deleteByID($id);
+    $id = Flight::request()->query['id'];
+    Flight::json(Flight::ingredient_service()->getByID($id));
+});
+
+Flight::route("DELETE /ingredient/@id", function ($id) { // Delete ingredient by id
+
+    Flight::ingredient_service()->deleteByID($id);
     Flight::json(["message" => "ingredient with id " . $id . " deleted successfully"]);
 });
 
-Flight::route("POST /ingredient", function() {   // Insert new ingredient
+Flight::route("POST /ingredient", function () { // Insert new ingredient
 
     $request = Flight::request()->data->getData();
-    Flight::json(["message" => "ingredient added successfully", "data: " => Flight::ingredient_service() -> insertData($request)]);
+    Flight::json(["message" => "ingredient added successfully", "data: " => Flight::ingredient_service()->insertData($request)]);
 });
 
-Flight::route("PUT /ingredient/@id", function($id) {   
+Flight::route("PUT /ingredient/@id", function ($id) {
 
     $request = Flight::request()->data->getData();
     // $request['id'] = $id;     Another way to show id         
-    Flight::json(["message" => "ingredient updated successfully", "data: " => Flight::ingredient_service() -> updateData($request, $id)]);
+    Flight::json(["message" => "ingredient updated successfully", "data: " => Flight::ingredient_service()->updateData($request, $id)]);
 });
 
 ?>

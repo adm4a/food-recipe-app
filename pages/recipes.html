@@ -22,6 +22,7 @@
 <style>
   .card {
     max-width: 24rem;
+    cursor: pointer;
   }
 
   .card-img-top {
@@ -30,8 +31,6 @@
     object-fit: cover;
   }
 </style>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
 
 <script>
   $(document).ready(function () {
@@ -47,19 +46,19 @@
 
           data.recipes.forEach((recipe) => {
             recipeCards += `
-              <div class="col-12 col-md-6 col-lg-3 mb-5">
-                <div class="card h-100">
-                  <img src="${recipe.img_url}" class="card-img-top" alt="Recipe Image">
-                  <div class="card-body">
-                    <h5 class="card-title">${recipe.title}</h5>
-                    <p class="card-text">${recipe.description}</p>
-                  </div>
-                  <div class="card-footer">
-                    <small class="text-muted">Preparation time: <b>${recipe.prep_time}</b></small>
-                  </div>
-                </div>
-              </div>
-            `;
+                          <div class="col-12 col-md-6 col-lg-3 mb-5 recipe-card" data-id="${recipe.id}">
+                              <div class="card h-100">
+                                  <img src="${recipe.img_url}" class="card-img-top" alt="Recipe Image">
+                                  <div class="card-body">
+                                      <h5 class="card-title">${recipe.title}</h5>
+                                      <p class="card-text">${recipe.description}</p>
+                                  </div>
+                                  <div class="card-footer">
+                                      <small class="text-muted">Preparation time: <b>${recipe.prep_time}</b></small>
+                                  </div>
+                              </div>
+                          </div>
+                      `;
           });
 
           let pagination = "";
@@ -93,5 +92,11 @@
         loadRecipes(currentPage, itemsPerPage, $(this).val());
       }, 300)
     );
+
+    // Handle click event on recipe card to load the single recipe view
+    $(document).on("click", ".recipe-card", function (e) {
+      let recipeId = $(this).data("id");
+      window.location.href = `/food-recipe-app/pages/recipe.html?id=${recipeId}`;
+    });
   });
 </script>
