@@ -23,10 +23,9 @@ require_once "routes/FavoritesRoutes.php";
 require_once "routes/IngredientsRoutes.php";
 
 Flight::before('start', function (&$params, &$output) {
-    $excludedRoutesStartsWith = ["/login", "/register", "/recipes", "/recipe/"];
+    $excludedRoutesStartsWith = ["/login", "/register", "/recipes", "/recipe/", "/users"];
     $request = Flight::request();
 
-    // Check if the URL starts with one of the excluded strings
     foreach ($excludedRoutesStartsWith as $route) {
         if (strpos($request->url, $route) === 0) {
             return;

@@ -18,7 +18,7 @@ class RecipeService extends BaseService
 
     public function updateData($entity, $id)
     {
-        // Update the recipe in the database
+        
         $updatedRecipe = $this->dao->updateData($entity, $id);
 
         if ($updatedRecipe !== false) {

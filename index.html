@@ -138,31 +138,31 @@
           },
 
           error: function (xhr, status, error) {
-            $("#profileLink, #logoutLink").hide(); // <-- Added #logoutLink here
+            $("#profileLink, #logoutLink").hide(); 
             $("#loginLink, #registerLink").show();
           },
         });
 
-        // Initially load home screen
+        // load home screen
         loadPage("pages/home.html");
 
-        // Handle navigation clicks
+        // navigation clicks
         $("nav a").click(function (e) {
           e.preventDefault();
           let page = "pages/" + $(this).attr("href").substring(1) + ".html";
           loadPage(page);
         });
 
-        // Handle logout click
+        // logout click
         $("#logoutLink").click(function () {
           // Remove the token from local storage
           localStorage.removeItem("token");
 
-          // Update the UI to reflect logged out state
+          // Update the UI 
           $("#profileLink, #logoutLink").hide();
           $("#loginLink, #registerLink").show();
 
-          // Optional: redirect the user to the home page
+          // redirect the user to the home page
           loadPage("pages/home.html");
         });
 

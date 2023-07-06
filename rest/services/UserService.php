@@ -13,13 +13,13 @@ class UserService extends BaseService
 
     public function validateUser($username, $password)
     {
-        // Query the database for a user with the given username
+        
         $user = $this->dao->getUserByUsername($username);
         // If a user was found and the password matches, return the user
         if ($user && md5($password) === $user['password']) {
             return $user;
         }
-        // If no user was found or the password doesn't match, return null
+        // return null
         return null;
     }
 

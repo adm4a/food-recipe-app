@@ -14,10 +14,10 @@ class BaseDao
     {
         try {
             $this->table_name = $table_name;
-            $host = Config::DB_HOST(); // Replace with your host name
-            $dbname = Config::DB_SCHEMA(); // Replace with your database name
-            $user = Config::DB_USERNAME(); // Replace with your MySQL username
-            $pass = Config::DB_PASSWORD(); // Replace with your MySQL password
+            $host = Config::DB_HOST(); 
+            $dbname = Config::DB_SCHEMA(); 
+            $user = Config::DB_USERNAME(); 
+            $pass = Config::DB_PASSWORD(); 
 
             // Create a new PDO connection
             $this->pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
@@ -115,7 +115,6 @@ class BaseDao
             $stmt->execute($params);
             return $entity;
         } catch (PDOException $e) {
-            // Log or handle the exception as needed
             echo "Failed to update entity: " . $e->getMessage();
             return false;
         }

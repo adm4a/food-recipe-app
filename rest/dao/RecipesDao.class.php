@@ -71,7 +71,7 @@ class RecipesDao extends BaseDao
             $stmt->execute($params);
             return $entity;
         } catch (PDOException $e) {
-            // Log or handle the exception as needed
+           
             echo "Failed to update entity: " . $e->getMessage();
             return null;
         }

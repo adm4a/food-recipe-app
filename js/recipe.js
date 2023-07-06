@@ -1,6 +1,5 @@
 function loadRecipe(recipeId) {
   if (recipeId) {
-    // Fetch the individual recipe
     $.ajax({
       type: "GET",
       url: `http://localhost/food-recipe-app/rest/recipe/${recipeId}`,
@@ -37,6 +36,5 @@ function loadRecipe(recipeId) {
   }
 }
 $("#backToRecipes").click(function () {
-  // navigate back to the recipes page
   $("#app").load("/food-recipe-app/pages/recipes.html", function () {});
 });
