@@ -29,6 +29,11 @@ class RecipesDao extends BaseDao
         $stmt->execute();
         $recipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        // Return an empty array if there are no recipes
+        if (empty($recipes)) {
+            $recipes = [];
+        }
+
         error_log("Got userid:" . $userId);
         if ($userId) {
             foreach ($recipes as &$recipe) {
@@ -46,6 +51,7 @@ class RecipesDao extends BaseDao
 
         return ['recipes' => $recipes, 'totalCount' => (int) $totalCount];
     }
+
 
 
     public function updateData($entity, $id, $id_column = "id")

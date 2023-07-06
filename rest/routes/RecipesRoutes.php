@@ -23,8 +23,13 @@ Flight::route("GET /recipes", function () {
     $searchText = isset($request->query['searchText']) ? $request->query['searchText'] : '';
     error_log("Passing userid:" . $userId);
     $recipes = Flight::recipe_service()->getRecipes($page, $itemsPerPage, $searchText, $userId);
-    Flight::json($recipes);
+    if ($recipes !== false) {
+        Flight::json($recipes);
+    } else {
+        Flight::json(["error" => "No recipes found"], 404);
+    }
 });
+
 
 
 Flight::route("GET /recipe/@id", function ($id) { // Get recipes by id 
