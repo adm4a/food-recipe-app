@@ -9,32 +9,33 @@ class RecipesDao extends BaseDao
         parent::__construct("recipes");
     }
 
-    public function getRecipes($page = 1, $itemsPerPage = 8, $searchText = '', $userId = null)
+    public function getRecipes($page = 1, $itemsPerPage = 8, $searchText = null, $userId = null)
     {
         $offset = ($page - 1) * $itemsPerPage;
 
-        // Check if searchText is empty
-        $searchQuery = '';
-        if (!empty($searchText)) {
+        $query = "SELECT * FROM " . $this->table_name;
+        $countQuery = "SELECT COUNT(*) as totalCount FROM " . $this->table_name;
+
+        if ($searchText !== null && $searchText !== '') {
             $searchText = '%' . $searchText . '%';
-            $searchQuery = ' WHERE title LIKE :searchText';
+            $query .= ' WHERE title LIKE :searchText';
+            $countQuery .= ' WHERE title LIKE :searchText';
         }
 
-        $stmt = $this->pdo->prepare("SELECT * FROM " . $this->table_name . $searchQuery . " ORDER BY id LIMIT :itemsPerPage OFFSET :offset");
+        $query .= " ORDER BY id LIMIT :itemsPerPage OFFSET :offset";
+
+        $stmt = $this->pdo->prepare($query);
 
         $stmt->bindValue(':itemsPerPage', (int) $itemsPerPage, PDO::PARAM_INT);
         $stmt->bindValue(':offset', (int) $offset, PDO::PARAM_INT);
 
-        // Bind searchText only if it's not empty
-        if (!empty($searchText)) {
+        if ($searchText !== null && $searchText !== '') {
             $stmt->bindValue(':searchText', $searchText);
         }
 
         $stmt->execute();
         $recipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // Return an empty array if there are no recipes
-        if (empty($recipes)) {
+        if ($recipes === false) {
             $recipes = [];
         }
 
@@ -44,10 +45,9 @@ class RecipesDao extends BaseDao
             }
         }
 
-        $stmt = $this->pdo->prepare("SELECT COUNT(*) as totalCount FROM " . $this->table_name . $searchQuery);
+        $stmt = $this->pdo->prepare($countQuery);
 
-        // Bind searchText only if it's not empty
-        if (!empty($searchText)) {
+        if ($searchText !== null && $searchText !== '') {
             $stmt->bindValue(':searchText', $searchText);
         }
 

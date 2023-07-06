@@ -20,8 +20,7 @@ Flight::route("GET /recipes", function () {
     $request = Flight::request();
     $page = isset($request->query['page']) ? $request->query['page'] : 1;
     $itemsPerPage = isset($request->query['itemsPerPage']) ? $request->query['itemsPerPage'] : 8;
-    $searchText = isset($request->query['searchText']) ? $request->query['searchText'] : '';
-    error_log("Passing userid:" . $userId);
+    $searchText = isset($request->query['searchText']) ? $request->query['searchText'] : null;
     $recipes = Flight::recipe_service()->getRecipes($page, $itemsPerPage, $searchText, $userId);
     if ($recipes !== false) {
         Flight::json($recipes);
