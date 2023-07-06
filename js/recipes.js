@@ -46,8 +46,8 @@ $(document).ready(function () {
         $(".btn-primary").on("click", function (e) {
           e.stopPropagation();
           let recipeId = $(this).data("id");
-          $("#app").load(`/food-recipe-app/pages/recipe.html`, function () {
-            $.getScript("/food-recipe-app/js/recipe.js", function () {
+          $("#app").load(`/pages/recipe.html`, function () {
+            $.getScript("/js/recipe.js", function () {
               loadRecipe(recipeId);
             });
           });

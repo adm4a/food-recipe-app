@@ -36,5 +36,5 @@ function loadRecipe(recipeId) {
   }
 }
 $("#backToRecipes").click(function () {
-  $("#app").load("/food-recipe-app/pages/recipes.html", function () {});
+  $("#app").load("/pages/recipes.html", function () {});
 });

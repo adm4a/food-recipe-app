@@ -8,7 +8,7 @@
     }
   },
   "paths": {
-    "/food-recipe-app/rest/recipes/me": {
+    "/rest/recipes/me": {
       "get": {
         "tags": ["Recipes"],
         "summary": "Get recipes for current user",
@@ -33,7 +33,7 @@
         }
       }
     },
-    "/food-recipe-app/rest/recipes": {
+    "/rest/recipes": {
       "get": {
         "tags": ["Recipes"],
         "summary": "Get all recipes",
@@ -86,7 +86,7 @@
         }
       }
     },
-    "/food-recipe-app/rest/recipe/{id}": {
+    "/rest/recipe/{id}": {
       "get": {
         "tags": ["Recipes"],
         "summary": "Get recipes by ID",
@@ -190,7 +190,7 @@
       }
     },
 
-    "/food-recipe-app/rest/categories": {
+    "/rest/categories": {
       "get": {
         "tags": ["Categories"],
         "summary": "Get all categories",
@@ -211,7 +211,7 @@
         }
       }
     },
-    "/food-recipe-app/rest/category/{id}": {
+    "/rest/category/{id}": {
       "get": {
         "tags": ["Categories"],
         "summary": "Get category by ID",
@@ -348,7 +348,7 @@
         }
       }
     },
-    "/food-recipe-app/rest/login": {
+    "/rest/login": {
       "post": {
         "tags": ["Authentication"],
         "summary": "User login",
@@ -393,7 +393,7 @@
         }
       }
     },
-    "/food-recipe-app/rest/me": {
+    "/rest/me": {
       "get": {
         "tags": ["User"],
         "summary": "Get current user",
@@ -472,7 +472,7 @@
         }
       }
     },
-    "/food-recipe-app/rest/users": {
+    "/rest/users": {
       "get": {
         "tags": ["User"],
         "summary": "Get all users",
@@ -493,7 +493,7 @@
         }
       }
     },
-    "/food-recipe-app/rest/user/{id}": {
+    "/rest/user/{id}": {
       "get": {
         "tags": ["User"],
         "summary": "Get user by ID",
@@ -593,7 +593,7 @@
         }
       }
     },
-    "/food-recipe-app/rest/ingredients": {
+    "/rest/ingredients": {
       "get": {
         "tags": ["Ingredients"],
         "summary": "Get all ingredients",
@@ -614,7 +614,7 @@
         }
       }
     },
-    "/food-recipe-app/rest/ingredient/{id}": {
+    "/rest/ingredient/{id}": {
       "get": {
         "tags": ["Ingredients"],
         "summary": "Get ingredient by ID",
@@ -751,7 +751,7 @@
         }
       }
     },
-    "/food-recipe-app/rest/favorites": {
+    "/rest/favorites": {
       "get": {
         "tags": ["Favorites"],
         "summary": "Get all favorites",
@@ -772,7 +772,7 @@
         }
       }
     },
-    "/food-recipe-app/rest/favorite/{id}": {
+    "/rest/favorite/{id}": {
       "get": {
         "tags": ["Favorites"],
         "summary": "Get favorite by ID",
