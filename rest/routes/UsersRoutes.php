@@ -2,12 +2,13 @@
 
 require_once "helpers.php";
 
+
 Flight::route('POST /login', function () {
     $request = Flight::request()->data->getData();
     $user = Flight::user_service()->validateUser($request['username'], $request['password']);
 
     if ($user) {
-        $token = generateJwt($user['id']);
+        $token = JwtHelper::generateJwt($user['id']);
         Flight::json(['token' => $token]);
     } else {
         Flight::json(['message' => 'Invalid username or password'], 401);
@@ -18,7 +19,7 @@ Flight::route("GET /me", function () {
     $headers = apache_request_headers();
     $token = isset($headers["Authorization"]) ? str_replace("Bearer ", "", $headers["Authorization"]) : null;
     if ($token) {
-        $decodedToken = decodeJwt($token);
+        $decodedToken = JwtHelper::decodeJwt($token);
         if ($decodedToken) {
             $userId = $decodedToken["userId"];
             Flight::json(Flight::user_service()->getByID($userId));
@@ -49,7 +50,7 @@ Flight::route("POST /me", function () {
     $headers = apache_request_headers();
     $token = isset($headers["Authorization"]) ? str_replace("Bearer ", "", $headers["Authorization"]) : null;
     if ($token) {
-        $decodedToken = decodeJwt($token);
+        $decodedToken = JwtHelper::decodeJwt($token);
         if ($decodedToken) {
             $userId = $decodedToken["userId"];
             $user = Flight::request()->data->getData();

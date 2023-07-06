@@ -10,10 +10,11 @@ class RecipeService extends BaseService
         parent::__construct(new RecipesDao);
 
     }
-    public function getRecipes($page = 1, $itemsPerPage = 8, $searchText = '')
+    public function getRecipes($page = 1, $itemsPerPage = 8, $searchText = '', $userId = null)
     {
-        return $this->dao->getRecipes($page, $itemsPerPage, $searchText);
+        return $this->dao->getRecipes($page, $itemsPerPage, $searchText, $userId);
     }
+
 
     public function updateData($entity, $id)
     {
@@ -27,6 +28,12 @@ class RecipeService extends BaseService
             return;
         }
     }
+
+    public function getByID($id)
+    {
+        return $this->dao->getByID($id);
+    }
+
 
     public function getByUserId($userId)
     {

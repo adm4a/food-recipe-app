@@ -1,0 +1,85 @@
+<div class="container mt-5">
+  <script
+    defer
+    src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
+    integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc"
+    crossorigin="anonymous"
+  ></script>
+  <h1>Your Favorite Recipes</h1>
+  <p>Here you can find your favorite recipes.</p>
+  <div
+    id="favoritesRow"
+    class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4"
+  ></div>
+</div>
+<style>
+  .card {
+    max-width: 24rem;
+  }
+
+  .card-img-top {
+    width: 100%;
+    height: 10vw;
+    object-fit: cover;
+  }
+
+  .favorite {
+    color: amber;
+  }
+</style>
+<script>
+  $(document).ready(function () {
+    function loadFavorites() {
+      $.ajax({
+        type: "GET",
+        url: "http://localhost/food-recipe-app/rest/favorites/me",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        success: function (data) {
+          let favoriteCards = "";
+
+          data.forEach((favorite) => {
+            favoriteCards += `
+              <div class="col-12 col-md-6 col-lg-3 mb-5">
+                <div class="card h-100">
+                  <img src="${favorite.img_url}" class="card-img-top" alt="Recipe Image">
+                  <div class="card-body">
+                    <h5 class="card-title">${favorite.title}</h5>
+                    <p class="card-text">${favorite.description}</p>
+                    <button class="btn btn-primary" data-id="${favorite.id}">View Recipe</button>
+                  </div>
+                  <div class="card-footer">
+                    <small class="text-muted">Preparation time: <b>${favorite.prep_time}</b></small>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+
+          $("#favoritesRow").html(favoriteCards);
+
+          // Add click event for View Recipe button
+          $(".btn-primary").on("click", function (e) {
+            e.stopPropagation();
+            let recipeId = $(this).data("id");
+            // Fetch and insert the single recipe view into the #app container
+            $("#app").load(`/food-recipe-app/pages/recipe.html`, function () {
+              $.getScript("/food-recipe-app/js/recipe.js", function () {
+                loadRecipe(recipeId);
+              });
+            });
+          });
+        },
+        error: function (xhr, status, error) {
+          console.error(
+            "Error occurred while fetching favorite recipes: ",
+            error
+          );
+        },
+      });
+    }
+
+    loadFavorites();
+  });
+</script>

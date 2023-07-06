@@ -9,14 +9,12 @@ class RecipesDao extends BaseDao
         parent::__construct("recipes");
     }
 
-    public function getRecipes($page = 1, $itemsPerPage = 8, $searchText = '')
+    public function getRecipes($page = 1, $itemsPerPage = 8, $searchText = '', $userId = null)
     {
         $offset = ($page - 1) * $itemsPerPage;
-
-        // If a search term is provided, add a WHERE clause to the query.
         $searchQuery = '';
         if ($searchText !== '') {
-            $searchText = '%' . $searchText . '%'; // Using % on both sides for a full match.
+            $searchText = '%' . $searchText . '%';
             $searchQuery = ' WHERE title LIKE :searchText';
         }
 
@@ -25,7 +23,6 @@ class RecipesDao extends BaseDao
         $stmt->bindValue(':itemsPerPage', (int) $itemsPerPage, PDO::PARAM_INT);
         $stmt->bindValue(':offset', (int) $offset, PDO::PARAM_INT);
 
-        // If a search term is provided, bind the parameter.
         if ($searchText !== '') {
             $stmt->bindValue(':searchText', $searchText);
         }
@@ -33,10 +30,17 @@ class RecipesDao extends BaseDao
         $stmt->execute();
         $recipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Get the total count of recipes.
+        error_log("Got userid:" . $userId);
+        if ($userId) {
+            foreach ($recipes as &$recipe) {
+                $recipe['isFavorite'] = Flight::favorite_service()->isFavorite($userId, $recipe['id']);
+            }
+        }
+
+
+
         $stmt = $this->pdo->prepare("SELECT COUNT(*) as totalCount FROM " . $this->table_name . $searchQuery);
 
-        // If a search term is provided, bind the parameter.
         if ($searchText !== '') {
             $stmt->bindValue(':searchText', $searchText);
         }
@@ -46,6 +50,7 @@ class RecipesDao extends BaseDao
 
         return ['recipes' => $recipes, 'totalCount' => (int) $totalCount];
     }
+
 
     public function updateData($entity, $id, $id_column = "id")
     {
@@ -71,6 +76,27 @@ class RecipesDao extends BaseDao
             return null;
         }
     }
+
+    public function getByID($id)
+    {
+        try {
+            $query = "SELECT r.*, u.username, c.name as category_name
+                      FROM recipes r 
+                      JOIN users u ON r.user_id = u.id 
+                      JOIN categories c ON r.category_id = c.id 
+                      WHERE r.id = :id";
+
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute(['id' => $id]);
+
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row;
+        } catch (\PDOException $e) {
+            error_log($e->getMessage());
+            return null;
+        }
+    }
+
 
 
     public function getByUserId($userId)

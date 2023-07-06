@@ -1,5 +1,45 @@
 <?php
 
+
+Flight::route('POST /favorites/me', function () {
+    $token = getTokenFromHeader();
+    $userId = getUserIdFromToken($token);
+    $recipeId = Flight::request()->data->getData()['recipe_id'];
+    if ($userId) {
+        Flight::favorite_service()->addToFavorites($userId, $recipeId);
+        Flight::json(["message" => "Recipe added to favorites"]);
+    } else {
+        Flight::json(["message" => "Invalid token"], 401);
+    }
+});
+
+Flight::route('GET /favorites/me', function () {
+    $token = getTokenFromHeader();
+    $userId = getUserIdFromToken($token);
+
+    if ($userId) {
+        $favorites = Flight::favorite_service()->getUserFavorites($userId);
+        Flight::json($favorites);
+    } else {
+        Flight::json(["message" => "Invalid token"], 401);
+    }
+});
+
+
+Flight::route('DELETE /favorites/me', function () {
+    $token = getTokenFromHeader();
+    $userId = getUserIdFromToken($token);
+    $recipeId = Flight::request()->data->getData()['recipe_id'];
+    if ($userId) {
+        Flight::favorite_service()->removeFromFavorites($userId, $recipeId);
+        Flight::json(["message" => "Recipe removed from favorites"]);
+    } else {
+        Flight::json(["message" => "Invalid token"], 401);
+    }
+});
+
+
+
 Flight::route("GET /favorites", function () { // Get all favorites
 
     // favorite_service = new Projectfavorite_service() <- don't need this
@@ -9,12 +49,6 @@ Flight::route("GET /favorites", function () { // Get all favorites
 
 Flight::route("GET /favorite/@id", function ($id) { // Get favorite by id 
 
-    Flight::json(Flight::favorite_service()->getByID($id));
-});
-
-Flight::route("GET /favorite_by_id", function () { // Get favorite by id with query
-
-    $id = Flight::request()->query['id'];
     Flight::json(Flight::favorite_service()->getByID($id));
 });
 

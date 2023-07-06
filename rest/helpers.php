@@ -12,7 +12,7 @@ function getTokenFromHeader()
 
 function getUserIdFromToken($token)
 {
-    $decodedToken = decodeJwt($token); // Implement your logic to decode the JWT token
+    $decodedToken = JwtHelper::decodeJwt($token); // Implement your logic to decode the JWT token
     if ($decodedToken) {
         return $decodedToken["userId"];
     }

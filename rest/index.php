@@ -2,6 +2,7 @@
 
 require_once "../vendor/autoload.php";
 require_once "./helpers.php";
+require_once "./JwtHelper.php";
 
 require_once("services/UserService.php");
 require_once("services/RecipeService.php");

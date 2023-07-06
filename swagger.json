@@ -1,10 +1,10 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "My first API",
+    "title": "Food - API Documentation",
     "version": "1.0.0",
     "contact": {
-      "email": "support@example.com"
+      "email": "amr@gmail.com"
     }
   },
   "paths": {

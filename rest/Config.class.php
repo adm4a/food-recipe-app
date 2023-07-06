@@ -1,6 +1,8 @@
 <?php
 class Config
 {
+    const SECRET_KEY = 'some-random-jwt-secret';
+
     public static function DB_HOST()
     {
         return 'localhost';

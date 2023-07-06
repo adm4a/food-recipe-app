@@ -1,5 +1,4 @@
 <?php
-use \Firebase\JWT\JWT;
 
 require_once __DIR__ . "/../Config.class.php";
 class BaseDao
@@ -125,60 +124,4 @@ class BaseDao
 
 
 }
-
-// Add these functions at the end of your BaseDao.php file.
-function generateJwt($userId)
-{
-    $secretKey = 'food-recipe-app-secretKeyaushda4327472398547237582436124781';
-    $issuedAt = new DateTimeImmutable();
-
-    $payload = [
-        'iat' => $issuedAt->getTimestamp(),
-        'iss' => 'localhost',
-        'userId' => $userId
-    ];
-
-    $header = [
-        "typ" => "JWT",
-        "alg" => "HS256",
-        "kid" => "your-key-id" // add your key id here
-    ];
-
-    // Here's the change: we base64url encode both the header and the payload
-    $encodedHeader = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(json_encode($header)));
-    $encodedPayload = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(json_encode($payload)));
-
-    $signature = hash_hmac('sha256', $encodedHeader . "." . $encodedPayload, $secretKey, true);
-    $encodedSignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
-
-    return $encodedHeader . "." . $encodedPayload . "." . $encodedSignature;
-}
-
-function decodeJwt($token)
-{
-    // This should be the same key you used in the 'kid' field when encoding the JWT
-    $keys = array('your-key-id' => 'food-recipe-app-secretKeyaushda4327472398547237582436124781');
-
-    try {
-        // The 'kid' in the header will be used by the library to find the correct secret key
-        $decoded = JWT::decode($token, $keys, ['HS256']);
-        $payload = (array) $decoded;
-        var_dump($payload);
-        return $payload;
-    } catch (Exception $e) {
-        error_log('Caught exception: ' . $e->getMessage());
-        return false;
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
 ?>
