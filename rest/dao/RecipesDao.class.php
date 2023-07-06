@@ -12,50 +12,39 @@ class RecipesDao extends BaseDao
 
     public function getRecipes($page = 1, $itemsPerPage = 8, $searchText = '', $userId = null)
     {
-        try {
-            $offset = ($page - 1) * $itemsPerPage;
-            $searchQuery = '';
-            if ($searchText !== '') {
-                $searchText = '%' . $searchText . '%';
-                $searchQuery = ' WHERE title LIKE :searchText';
+        $offset = ($page - 1) * $itemsPerPage;
+
+        // Modify this line
+        $searchText = '%' . $searchText . '%';
+        $searchQuery = ' WHERE title LIKE :searchText';
+
+        $stmt = $this->pdo->prepare("SELECT * FROM " . $this->table_name . $searchQuery . " ORDER BY id LIMIT :itemsPerPage OFFSET :offset");
+
+        $stmt->bindValue(':itemsPerPage', (int) $itemsPerPage, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int) $offset, PDO::PARAM_INT);
+
+        // This check is not needed anymore
+        $stmt->bindValue(':searchText', $searchText);
+
+        $stmt->execute();
+        $recipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        error_log("Got userid:" . $userId);
+        if ($userId) {
+            foreach ($recipes as &$recipe) {
+                $recipe['isFavorite'] = Flight::favorite_service()->isFavorite($userId, $recipe['id']);
             }
-
-            $stmt = $this->pdo->prepare("SELECT * FROM " . $this->table_name . $searchQuery . " ORDER BY id LIMIT :itemsPerPage OFFSET :offset");
-
-            $stmt->bindValue(':itemsPerPage', (int) $itemsPerPage, PDO::PARAM_INT);
-            $stmt->bindValue(':offset', (int) $offset, PDO::PARAM_INT);
-
-            if ($searchText !== '') {
-                $stmt->bindValue(':searchText', $searchText);
-            }
-
-            $stmt->execute();
-            $recipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            error_log("Got userid:" . $userId);
-            if ($userId) {
-                foreach ($recipes as &$recipe) {
-                    $recipe['isFavorite'] = Flight::favorite_service()->isFavorite($userId, $recipe['id']);
-                }
-            }
-
-
-
-            $stmt = $this->pdo->prepare("SELECT COUNT(*) as totalCount FROM " . $this->table_name . $searchQuery);
-
-            if ($searchText !== '') {
-                $stmt->bindValue(':searchText', $searchText);
-            }
-
-            $stmt->execute();
-            $totalCount = $stmt->fetch(PDO::FETCH_ASSOC)['totalCount'];
-
-            return ['recipes' => $recipes, 'totalCount' => (int) $totalCount];
-        } catch (PDOException $e) {
-            error_log("PDOException in getRecipes: " . $e->getMessage());
-        } catch (Exception $e) {
-            error_log("Exception in getRecipes: " . $e->getMessage());
         }
+
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) as totalCount FROM " . $this->table_name . $searchQuery);
+
+        // This check is not needed anymore
+        $stmt->bindValue(':searchText', $searchText);
+
+        $stmt->execute();
+        $totalCount = $stmt->fetch(PDO::FETCH_ASSOC)['totalCount'];
+
+        return ['recipes' => $recipes, 'totalCount' => (int) $totalCount];
     }
 
 
