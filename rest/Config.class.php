@@ -5,22 +5,22 @@ class Config
 
     public static function DB_HOST()
     {
-        return 'localhost';
+        return 'eu-cdbr-west-03.cleardb.net';
     }
 
     public static function DB_USERNAME()
     {
-        return 'root';
+        return 'bb6bdd9e5bf32c';
     }
 
     public static function DB_PASSWORD()
     {
-        return 'root';
+        return '2b863271';
     }
 
     public static function DB_SCHEMA()
     {
-        return 'web_prog';
+        return 'heroku_b1aa226bce2c892';
     }
 }
 ?>
