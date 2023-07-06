@@ -23,11 +23,6 @@ class UserService extends BaseService
         return null;
     }
 
-    public function getUserIdFromToken($token)
-    {
-        // Implement the logic to extract and decode the user ID from the JWT token
-        // Return the user ID
-    }
 
     public function deleteByID($id)
     {

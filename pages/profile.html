@@ -325,9 +325,13 @@
     <script>
       $(document).ready(function () {
         // Make an AJAX GET request to fetch categories
-        $.get(
-          "http://localhost/food-recipe-app/rest/categories",
-          function (response) {
+        $.ajax({
+          url: "http://localhost/food-recipe-app/rest/categories",
+          type: "GET",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          success: function (response) {
             if (response && response.length > 0) {
               // Iterate over the categories and generate the dropdown options
               response.forEach(function (category) {
@@ -346,8 +350,12 @@
                 );
               });
             }
-          }
-        );
+          },
+          error: function (xhr, textStatus, errorThrown) {
+            // Handle error response
+            console.log(xhr.status + ": " + xhr.responseText);
+          },
+        });
 
         $(document).ready(function () {
           $("#deleteAccountBtn").click(function () {
@@ -643,11 +651,13 @@
 
             $.ajax({
               type: "PUT",
+              contentType: "application/json",
+
               url: "http://localhost/food-recipe-app/rest/recipe/" + recipeId,
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("token"),
               },
-              data: recipeData,
+              data: JSON.stringify(recipeData),
               success: function (response) {
                 // Handle success response
                 console.log("Recipe updated successfully:", response);

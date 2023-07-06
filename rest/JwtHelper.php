@@ -37,7 +37,6 @@ class JwtHelper
         try {
             $decoded = JWT::decode($token, $secretKey, ['HS256']);
             $payload = (array) $decoded;
-            var_dump($payload);
             return $payload;
         } catch (Exception $e) {
             error_log('Caught exception: ' . $e->getMessage());

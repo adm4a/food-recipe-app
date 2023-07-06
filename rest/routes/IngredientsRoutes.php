@@ -2,8 +2,6 @@
 
 Flight::route("GET /ingredients", function () { // Get all ingredients
 
-    // ingredient_service = new Projectingredient_service() <- don't need this
-    // $results = Flight::ingredient_service()->getAll();
     Flight::json(Flight::ingredient_service()->getAll());
 });
 

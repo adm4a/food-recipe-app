@@ -409,7 +409,7 @@
             }
           },
           "401": {
-            "description": "Token not provided or invalid"
+            "description": "Unauthorized or invalid"
           }
         }
       },
@@ -467,7 +467,7 @@
             }
           },
           "401": {
-            "description": "Token not provided or invalid"
+            "description": "Unauthorized or invalid"
           }
         }
       }
