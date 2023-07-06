@@ -20,7 +20,7 @@ $(document).ready(function () {
     };
 
     $.ajax({
-      url: "http://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/register",
+      url: "https://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/register",
       type: "POST",
       contentType: "application/json",
       data: JSON.stringify(data),

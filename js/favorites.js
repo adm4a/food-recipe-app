@@ -2,7 +2,7 @@ $(document).ready(function () {
   function loadFavorites() {
     $.ajax({
       type: "GET",
-      url: "http://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/favorites/me",
+      url: "https://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/favorites/me",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },

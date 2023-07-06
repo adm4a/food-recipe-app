@@ -2,7 +2,7 @@ $(document).ready(function () {
   function loadUsers() {
     $.ajax({
       type: "GET",
-      url: "http://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/users",
+      url: "https://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/users",
       success: function (data) {
         let userList = "";
 

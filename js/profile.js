@@ -1,6 +1,6 @@
 $(document).ready(function () {
   $.ajax({
-    url: "http://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/categories",
+    url: "https://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/categories",
     type: "GET",
     headers: {
       Authorization: "Bearer " + localStorage.getItem("token"),
@@ -43,7 +43,7 @@ $(document).ready(function () {
         if (result.isConfirmed) {
           $.ajax({
             type: "DELETE",
-            url: "http://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/me",
+            url: "https://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/me",
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),
             },
@@ -66,7 +66,7 @@ $(document).ready(function () {
 
     $.ajax({
       type: "GET",
-      url: "http://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/me",
+      url: "https://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/me",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
@@ -89,7 +89,7 @@ $(document).ready(function () {
 
       $.ajax({
         type: "POST",
-        url: "http://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/me",
+        url: "https://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/me",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -138,7 +138,7 @@ $(document).ready(function () {
 
       $.ajax({
         type: "POST",
-        url: "http://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/recipe",
+        url: "https://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/recipe",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -169,7 +169,7 @@ $(document).ready(function () {
     function loadMyRecipes() {
       $.ajax({
         type: "GET",
-        url: "http://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/recipes/me",
+        url: "https://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/recipes/me",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -239,7 +239,7 @@ $(document).ready(function () {
         if (result.isConfirmed) {
           $.ajax({
             type: "DELETE",
-            url: `http://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/recipe/${recipeId}`,
+            url: `https://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/recipe/${recipeId}`,
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token"),
             },
@@ -303,7 +303,7 @@ $(document).ready(function () {
         contentType: "application/json",
 
         url:
-          "http://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/recipe/" +
+          "https://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/recipe/" +
           recipeId,
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),

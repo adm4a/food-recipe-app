@@ -5,7 +5,7 @@ $(document).ready(function () {
   function loadRecipes(page, itemsPerPage, searchText = "") {
     $.ajax({
       type: "GET",
-      url: `http://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/recipes?page=${page}&itemsPerPage=${itemsPerPage}&searchText=${searchText}`,
+      url: `https://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/recipes?page=${page}&itemsPerPage=${itemsPerPage}&searchText=${searchText}`,
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
@@ -61,7 +61,7 @@ $(document).ready(function () {
 
           if (isFavorite) {
             $.ajax({
-              url: `http://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/favorites/me`,
+              url: `https://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/favorites/me`,
               type: "DELETE",
               data: JSON.stringify({ recipe_id: recipeId }),
               contentType: "application/json",
@@ -75,7 +75,7 @@ $(document).ready(function () {
             });
           } else {
             $.ajax({
-              url: `http://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/favorites/me`,
+              url: `https://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/favorites/me`,
               type: "POST",
               data: JSON.stringify({ recipe_id: recipeId }),
               contentType: "application/json",

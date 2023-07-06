@@ -1,7 +1,7 @@
 $(document).ready(function () {
   $.ajax({
     type: "GET",
-    url: "http://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/me",
+    url: "https://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/me",
     headers: {
       Authorization: "Bearer " + localStorage.getItem("token"),
     },
@@ -13,7 +13,7 @@ $(document).ready(function () {
 
   $.ajax({
     type: "GET",
-    url: "http://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/recipes",
+    url: "https://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/recipes",
     success: function (response) {
       var recipes = response.recipes;
 

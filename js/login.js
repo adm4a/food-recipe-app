@@ -7,7 +7,7 @@ $(document).ready(function () {
 
     $.ajax({
       type: "POST",
-      url: "http://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/login",
+      url: "https://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/login",
       data: {
         username: username,
         password: password,
