@@ -2,7 +2,7 @@ function loadRecipe(recipeId) {
   if (recipeId) {
     $.ajax({
       type: "GET",
-      url: `http://localhost/food-recipe-app/rest/recipe/${recipeId}`,
+      url: `http://food-recipe-ibu-a36511ad80e4.herokuapp.com/rest/recipe/${recipeId}`,
       success: function (data) {
         $("#recipeTitle").text(data.title);
         $("#recipeImage").attr("src", data.img_url);
